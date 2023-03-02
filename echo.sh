@@ -1,2 +1,2 @@
-echo 'original commit'
+echo 'new commit'
 git rev-parse HEAD
