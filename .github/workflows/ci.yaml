@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  release:
+    types: [published]
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo 'Running mock test ci'
+  release_production:
+    if: github.event_name == 'release' && github.event.action == 'published'
+    name: release_production
+    environment:
+      name: production
+    needs: [tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./echo.sh
+  post_prod_run:
+    name: post_prod_run
+    needs: [release_production]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./echo.sh
