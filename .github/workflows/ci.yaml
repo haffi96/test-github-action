@@ -31,4 +31,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: echo '${{ github.ref_name }}'
       - run: ./echo.sh
