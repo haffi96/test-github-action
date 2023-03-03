@@ -31,9 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-haskell@v1.1
+      - uses: haskell/actions/setup@v2
         with:
-          ghc-version: '8.8.3' # Exact version of ghc to use
+          ghc-version: '8.8.4' # Exact version of ghc to use
+          # cabal-version: 'latest'. Omitted, but defaults to 'latest'
           enable-stack: true
           stack-version: 'latest'
       - run: sudo apt-get install graphviz graphviz-dev && https://github.com/BurntSushi/erd.git && cd erd && stack install && export PATH="/root/.local/bin:$PATH"
