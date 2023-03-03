@@ -1,2 +1,2 @@
-echo 'new new commit'
+echo 'new new new commit'
 git rev-parse HEAD
