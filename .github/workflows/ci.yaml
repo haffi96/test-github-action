@@ -39,7 +39,7 @@ jobs:
           stack-version: 'latest'
       - run: sudo apt-get install graphviz graphviz-dev && git clone https://github.com/BurntSushi/erd.git && cd erd && stack install && export PATH="/root/.local/bin:$PATH"
       - run: echo '${{ github.ref_name }}'
-      - run: echo '"title {label: "app - ${{ github.ref_name }}", size: "20"}\n" | cat - todo.txt > temp && mv temp todo.txt'
+      - run: echo 'title {label: "app - 0.0.9", size: "20"}\n' | cat - simple.er > temp && mv temp simple.er
       - run: head -1 simple.er
       - run: erd -i simple.er -o simple.png -f png -e ortho
       - run: ./echo.sh
