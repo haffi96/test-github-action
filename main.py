@@ -6,4 +6,4 @@ app = FastAPI()
 
 @app.get("/")
 async def hello() -> JSONResponse:
-    return JSONResponse({"Message": "Hello"}, status_code=200)
+    return JSONResponse({"Message": "Hello!"}, status_code=200)
