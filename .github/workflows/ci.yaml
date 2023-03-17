@@ -31,8 +31,8 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
       - run: poetry run black --check .
-      - run: poerty run isort --check .
-      - run: poerty run pytest
+      - run: poetry run isort --check .
+      - run: poetry run pytest
   # release_production:
   #   if: github.event_name == 'release' && github.event.action == 'published'
   #   name: release_production
