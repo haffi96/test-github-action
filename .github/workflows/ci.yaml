@@ -17,14 +17,23 @@ jobs:
       - name: Install poetry
         run: pip install poetry
       - run: poetry config virtualenvs.create false
+      - run: poetry config virtualenvs.in-project true
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
           cache: "poetry"
-      - run: poetry install
-      - run: black --check .
-      - run: isort --check .
-      - run: pytest
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install
+      - run: poetry run black --check .
+      - run: poerty run isort --check .
+      - run: poerty run pytest
   # release_production:
   #   if: github.event_name == 'release' && github.event.action == 'published'
   #   name: release_production
