@@ -5,8 +5,8 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-  release:
-    types: [published]
+  # release:
+  #   types: [published]
 
 jobs:
   tests:
@@ -14,36 +14,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: echo 'Running mock test ci'
-      - run: echo "${{ toJson(job) }}"
-      - run: echo "${{ toJson(github.run_id) }}"
-      - run: echo "${{ toJson(github.run_number) }}"
-      - run: echo "${{ toJson(github.job) }}"
-  release_production:
-    if: github.event_name == 'release' && github.event.action == 'published'
-    name: release_production
-    environment:
-      name: production
-    needs: [tests]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: ./echo.sh
-  post_prod_run:
-    name: post_prod_run
-    needs: [release_production]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: haskell/actions/setup@v2
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
         with:
-          ghc-version: '8.8.3' # Exact version of ghc to use
-          # cabal-version: 'latest'. Omitted, but defaults to 'latest'
-          enable-stack: true
-          stack-version: 'latest'
-      - run: sudo apt-get install graphviz graphviz-dev && git clone https://github.com/BurntSushi/erd.git && cd erd && stack install && export PATH="/root/.local/bin:$PATH"
-      - run: >
-          echo 'title {label: "app - ${{ github.ref_name }}", size: "40"}' | cat - simple.er > temp && mv temp simple.er
-      - run: head -1 simple.er
-      - run: erd -i simple.er -o simple.png -f png -e ortho
-      - run: ls
+          python-version: "3.11"
+          cache: "poetry"
+      - run: poetry install
+      - run: black --check .
+      - run: isort --check .
+      - run: pytest
+  # release_production:
+  #   if: github.event_name == 'release' && github.event.action == 'published'
+  #   name: release_production
+  #   environment:
+  #     name: production
+  #   needs: [tests]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - run: ./echo.sh
+  # post_prod_run:
+  #   name: post_prod_run
+  #   needs: [release_production]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: haskell/actions/setup@v2
+  #       with:
+  #         ghc-version: '8.8.3' # Exact version of ghc to use
+  #         # cabal-version: 'latest'. Omitted, but defaults to 'latest'
+  #         enable-stack: true
+  #         stack-version: 'latest'
+  #     - run: sudo apt-get install graphviz graphviz-dev && git clone https://github.com/BurntSushi/erd.git && cd erd && stack install && export PATH="/root/.local/bin:$PATH"
+  #     - run: >
+  #         echo 'title {label: "app - ${{ github.ref_name }}", size: "40"}' | cat - simple.er > temp && mv temp simple.er
+  #     - run: head -1 simple.er
+  #     - run: erd -i simple.er -o simple.png -f png -e ortho
+  #     - run: ls
