@@ -3095,4 +3095,4 @@ admin = ["Flask", "Flask-Admin", "Authlib", "Flask-WTF"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "beab0a1a6d46afeb68770c73878e5087e4b02868c1dcb090362653a3837d455f"
+content-hash = "628c72d52ec6eb17f83a6a70b72855509c451ede5e2c1c7474494ca510c359cc"

@@ -30,7 +30,7 @@ jobs:
           key: venv-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install
+        run: poetry install --all-extras
       - run: poetry run black --check .
       - run: poetry run isort --check .
       - run: poetry run pytest

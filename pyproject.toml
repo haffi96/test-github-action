@@ -31,7 +31,7 @@ hiredis = "^2.1.0"
 apscheduler = "^3.9.1.post1"
 gunicorn = "^20.1.0"
 tenacity = "^8.1.0"
-requests = "^2.28.2"
+requests = "^2.28.1"
 cryptography = "^39.0.1"
 Flask = { version = "^2.2.2", optional = true }
 Flask-Admin = { version = "^1.6.0", optional = true }
