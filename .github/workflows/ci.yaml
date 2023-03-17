@@ -20,6 +20,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: "poetry"
+      - run: poetry config virtualenvs.create false
       - run: poetry install
       - run: black --check .
       - run: isort --check .
