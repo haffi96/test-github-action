@@ -22,9 +22,9 @@ jobs:
           cache: "poetry"
       - run: poetry config virtualenvs.create false
       - run: poetry install
-      - run: black --check .
-      - run: isort --check .
-      - run: pytest
+      - run: poetry run black --check .
+      - run: poetry run isort --check .
+      - run: poetry run pytest
   # release_production:
   #   if: github.event_name == 'release' && github.event.action == 'published'
   #   name: release_production
